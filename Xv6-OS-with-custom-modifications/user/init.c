@@ -4,7 +4,6 @@
 #include "stat.h"
 #include "types.h"
 #include "user.h"
-#include "file.h"
 
 char *argv[] = {"sh", 0};
 
@@ -23,17 +22,17 @@ int main(void) {
   // Only 10 device major numbers are allowed by param.h
   int hellofd = open("dev/hello", O_RDWR);
   if(hellofd < 0){
-    mknod("dev/hello", HELLO, 1); // 7 is major number, 1 is minor number 
+    mknod("dev/hello", 7, 1); // 7 is major number, 1 is minor number 
     hellofd = open("dev/hello", O_RDWR);
   }
   close(hellofd);
 
-  // int queuefd = open("dev/queue", O_RDWR);
-  // if(queuefd < 0){
-  //   mknod("dev/queue", DQUEUE, 1); // 7 is major number, 1 is minor number 
-  //   queuefd = open("dev/queue", O_RDWR);
-  // }
-  // close(queuefd);
+  int queuefd = open("dev/queue", O_RDWR);
+  if(queuefd < 0){
+    mknod("dev/queue", 6, 1); // 7 is major number, 1 is minor number 
+    queuefd = open("dev/queue", O_RDWR);
+  }
+  close(queuefd);
 
 
   for (;;) {
