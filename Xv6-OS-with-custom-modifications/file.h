@@ -41,5 +41,6 @@ extern struct devsw devsw[];
 // Device major numbers
 #define CONSOLE 1
 #define HELLO 7
+#define DQUEUE 6
 
 #endif /* C0B8A0F5_BF34_4081_94FE_4F6887BECE9D */

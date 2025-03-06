@@ -29,6 +29,7 @@ KOBJS = \
 	kkernel/sysproc.o\
 	kkernel/dconsole.o\
 	kkernel/dhello.o\
+	kkernel/dqueue.o\
 	string.o\
 
 # Cross-compiling (e.g., on Mac OS X)
