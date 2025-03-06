@@ -71,7 +71,7 @@ int devqueue_read(struct inode *ip, char *buf, int n) {
   return n;
 }
 
-void devqueue_init_device(void) {
+void queueinit(void) {
   devsw[DQUEUE].write = devqueue_write;
   devsw[DQUEUE].read = devqueue_read;
   devqueue_init();
