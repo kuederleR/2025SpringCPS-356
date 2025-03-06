@@ -28,6 +28,7 @@ int main(void) {
   queueinit();                                // /dev/dqueue
   zeroinit();                                 // /dev/zero
   nullinit();                                 // /dev/null
+  ticksinit();                                // /dev/ticks
                               
   uartinit();                                 // serial port
   pinit();                                    // process table

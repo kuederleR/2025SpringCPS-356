@@ -44,5 +44,6 @@ extern struct devsw devsw[];
 #define DQUEUE 6
 #define DZERO 5
 #define DNULL 4
+#define DTICKS 3
 
 #endif /* C0B8A0F5_BF34_4081_94FE_4F6887BECE9D */

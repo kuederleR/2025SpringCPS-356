@@ -32,6 +32,7 @@ KOBJS = \
 	kkernel/dqueue.o\
 	kkernel/dzero.o\
 	kkernel/dnull.o\
+	kkernel/dticks.o\
 	string.o\
 
 # Cross-compiling (e.g., on Mac OS X)
