@@ -28,12 +28,12 @@ int main(void) {
   }
   close(hellofd);
 
-  int queuefd = open("dev/queue", O_RDWR);
-  if(queuefd < 0){
-    mknod("dev/queue", DQUEUE, 1); // 7 is major number, 1 is minor number 
-    queuefd = open("dev/queue", O_RDWR);
-  }
-  close(queuefd);
+  // int queuefd = open("dev/queue", O_RDWR);
+  // if(queuefd < 0){
+  //   mknod("dev/queue", DQUEUE, 1); // 7 is major number, 1 is minor number 
+  //   queuefd = open("dev/queue", O_RDWR);
+  // }
+  // close(queuefd);
 
 
   for (;;) {
