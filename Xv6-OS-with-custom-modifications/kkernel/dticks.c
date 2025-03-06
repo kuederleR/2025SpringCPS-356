@@ -3,7 +3,6 @@
 #include "param.h"
 #include "fs.h"
 #include "file.h"
-#include "string.h"
 
 // External tick counter from xv6 kernel
 extern uint32_t ticks;
@@ -11,7 +10,7 @@ extern struct spinlock tickslock;
 
 // Read from /dev/ticks: Return tick count as a NUL-terminated string
 int devticks_read(struct inode *ip, char *buf, int n) {
-char tick_str[16] = {'\0'}; // Buffer to hold tick count as a string, initialized to null characters
+  char tick_str[16] = {'\0'}; // Buffer to hold tick count as a string, initialized to null characters
   int tick_count;
   
   acquire(&tickslock);  // Ensure atomic read of the global ticks variable
@@ -19,26 +18,10 @@ char tick_str[16] = {'\0'}; // Buffer to hold tick count as a string, initialize
   release(&tickslock);
 
   // Convert tick_count to a string
-  snprintf(tick_str, 16, "%d", tick_count);
-
-  // Ensure NUL termination
-  int len = strlen(tick_str);
-  tick_str[len] = '\0';
-  for (int i = 0; i < len; i++) {
-    if (tick_str[i] == '\0') {
-      len = i;
-      break;
-    }
-  }
-  len++;  // Include the '\0' in the output
-
-  // Copy the tick string to user buffer, respecting `n`
-  if (n < len) {
-    return -1; // Fail if buffer is too small
-  }
+  int len = snprintf(tick_str, 16, "%d", tick_count);
   
-  memmove(buf, tick_str, len);
-  return len;  // Return the number of bytes read (including '\0')
+  memmove(buf, tick_str, len + 1);
+  return len + 1;  // Return the number of bytes read (including '\0')
 }
 
 // Write is not supported (read-only device)
