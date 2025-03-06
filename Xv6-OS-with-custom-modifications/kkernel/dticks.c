@@ -5,7 +5,7 @@
 #include "file.h"
 
 // External tick counter from xv6 kernel
-extern int ticks;
+extern uint32_t ticks;
 extern struct spinlock tickslock;
 
 // Read from /dev/ticks: Return tick count as a NUL-terminated string
