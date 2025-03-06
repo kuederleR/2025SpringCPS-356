@@ -34,6 +34,13 @@ int main(void) {
   }
   close(queuefd);
 
+  int zerofd = open("dev/zero", O_RDWR);
+  if(zerofd < 0){
+    mknod("dev/zero", 5, 1); // 7 is major number, 1 is minor number 
+    zerofd = open("dev/zero", O_RDWR);
+  }
+  close(zerofd);
+
 
   for (;;) {
     printf(1, "init: starting sh\n");

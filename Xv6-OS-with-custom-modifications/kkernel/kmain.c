@@ -25,7 +25,8 @@ int main(void) {
   consoleinit();                              // /dev/console hardware
   
   helloinit();                                // /dev/hello
-  queueinit();                               // /dev/dqueue
+  queueinit();                                // /dev/dqueue
+  zeroinit();                                 // /dev/zero
                               
   uartinit();                                 // serial port
   pinit();                                    // process table
