@@ -18,7 +18,7 @@ int devticks_read(struct inode *ip, char *buf, int n) {
   release(&tickslock);
 
   // Convert tick_count to a string
-  itoa(tick_count, tick_str, 10);
+  snprintf(tick_str, sizeof(tick_str), "%d", tick_count);
 
   // Ensure NUL termination
   int len = strlen(tick_str);
