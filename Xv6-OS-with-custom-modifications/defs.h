@@ -29,7 +29,7 @@ void panic(char *) __attribute__((noreturn));
 // dhello.c
 void helloinit(void);
 //dqueue.c
-void queue_init(void);
+void queueinit(void);
 
 // exec.c
 int exec(char *, char **);
