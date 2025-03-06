@@ -27,14 +27,6 @@ int main(void) {
   }
   close(hellofd);
 
-  int queuefd = open("dev/queue", O_RDWR);
-  if(queuefd < 0){
-    mknod("dev/queue", 6, 1); // 7 is major number, 1 is minor number 
-    queuefd = open("dev/queue", O_RDWR);
-  }
-  close(queuefd);
-
-
   for (;;) {
     printf(1, "init: starting sh\n");
     pid = fork();
