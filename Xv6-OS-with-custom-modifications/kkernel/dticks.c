@@ -7,6 +7,8 @@
 // External tick counter from xv6 kernel
 extern uint32_t ticks;
 extern struct spinlock tickslock;
+extern int32_t snprintf(char *outbuffer, int32_t n, const char *fmt, ...);
+
 
 // Read from /dev/ticks: Return tick count as a NUL-terminated string
 int devticks_read(struct inode *ip, char *buf, int n) {
@@ -28,6 +30,8 @@ int devticks_read(struct inode *ip, char *buf, int n) {
 int devticks_write(struct inode *ip, char *buf, int n) {
   return -1; // Return an error (operation not permitted)
 }
+
+
 
 // Register the device
 void ticksinit(void) {

@@ -36,8 +36,6 @@ void zeroinit(void);
 void nullinit(void);
 //dticks.c
 void ticksinit(void);
-//fprint.c
-int32_t snprintf(char *outbuffer, int32_t n, const char *fmt, ...);
 
 // exec.c
 int exec(char *, char **);

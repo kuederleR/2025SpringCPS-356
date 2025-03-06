@@ -33,7 +33,7 @@ KOBJS = \
 	kkernel/dzero.o\
 	kkernel/dnull.o\
 	kkernel/dticks.o\
-	kkernel/printf.o/
+	kkernel/printf.o\
 	string.o\
 
 # Cross-compiling (e.g., on Mac OS X)
