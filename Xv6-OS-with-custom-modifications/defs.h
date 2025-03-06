@@ -32,6 +32,8 @@ void helloinit(void);
 void queueinit(void);
 //dzero.c
 void zeroinit(void);
+//dnull.c
+void nullinit(void);
 
 // exec.c
 int exec(char *, char **);

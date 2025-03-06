@@ -76,6 +76,7 @@ UPROGS=\
 	_testdevhello\
 	_testdevqueue\
 	_testdevzero\
+	_testdevnull\
 
 all: $(UPROGS)
 

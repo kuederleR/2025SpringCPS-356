@@ -27,6 +27,7 @@ int main(void) {
   helloinit();                                // /dev/hello
   queueinit();                                // /dev/dqueue
   zeroinit();                                 // /dev/zero
+  nullinit();                                 // /dev/null
                               
   uartinit();                                 // serial port
   pinit();                                    // process table

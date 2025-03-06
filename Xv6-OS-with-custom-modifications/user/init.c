@@ -41,6 +41,13 @@ int main(void) {
   }
   close(zerofd);
 
+  int nullfd = open("dev/null", O_RDWR);
+  if(nullfd < 0){
+    mknod("dev/null", 4, 1); // 7 is major number, 1 is minor number 
+    nullfd = open("dev/null", O_RDWR);
+  }
+  close(nullfd);
+
 
   for (;;) {
     printf(1, "init: starting sh\n");
