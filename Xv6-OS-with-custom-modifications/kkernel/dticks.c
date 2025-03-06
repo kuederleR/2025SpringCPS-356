@@ -20,7 +20,7 @@ int devticks_read(struct inode *ip, char *buf, int n) {
   release(&tickslock);
 
   // Convert tick_count to a string
-  int len = snprintf(tick_str, 16, "%d", tick_count);
+  int len = snprintf(tick_str, sizeof(tick_str), "%d", tick_count);
   
   memmove(buf, tick_str, len + 1);
   return len + 1;  // Return the number of bytes read (including '\0')
