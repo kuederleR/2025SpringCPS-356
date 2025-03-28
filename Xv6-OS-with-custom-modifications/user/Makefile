@@ -73,11 +73,11 @@ UPROGS=\
 	_shutdown\
 	_testfs\
 	_testuser\
-	_testdevhello\
 	_testdevqueue\
 	_testdevzero\
 	_testdevnull\
 	_testdevticks\
+	_queue\
 
 all: $(UPROGS)
 
