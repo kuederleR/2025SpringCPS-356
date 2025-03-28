@@ -31,7 +31,6 @@ void devqueue_init(void) {
 
 int devqueue_write(struct inode *ip, char *buf, int n) {
   int i;
-  iunlock(ip);
   acquiresleep(&queue.lock);
   
   for (i = 0; i < n; i++) {
@@ -46,13 +45,11 @@ int devqueue_write(struct inode *ip, char *buf, int n) {
   }
 
   releasesleep(&queue.lock);
-  ilock(ip);
   return n;
 }
 
 int devqueue_read(struct inode *ip, char *buf, int n) {
   int i;
-  iunlock(ip);
   acquiresleep(&queue.lock);
   
   for (i = 0; i < n; i++) {
@@ -67,7 +64,6 @@ int devqueue_read(struct inode *ip, char *buf, int n) {
   }
 
   releasesleep(&queue.lock);
-  ilock(ip);
   return n;
 }
 
