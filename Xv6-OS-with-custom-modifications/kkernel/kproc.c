@@ -81,6 +81,8 @@ found:
   p->state = EMBRYO;
   p->pid = nextpid++;
 
+  p->priority = 0; // Default priority (LP01)
+
   release(&ptable.lock);
 
   // Allocate kernel stack.

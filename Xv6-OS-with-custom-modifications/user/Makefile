@@ -73,9 +73,8 @@ UPROGS=\
 	_shutdown\
 	_testfs\
 	_testuser\
-	_testdevhello\
-	_ex\
-
+	_testnice\
+	
 all: $(UPROGS)
 
 

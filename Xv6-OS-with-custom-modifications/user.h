@@ -28,6 +28,9 @@ int uptime(void);
 
 int shutdown(void);
 
+int nice(int pid, int prio); // (LP01) Nice user syscall
+
+
 // ulib.c
 int stat(const char *, struct stat *);
 char *strcpy(char *, const char *);

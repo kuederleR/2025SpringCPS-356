@@ -27,4 +27,7 @@
 
 #define SYS_shutdown  22
 
+
+#define SYS_nice  23  // (LP01) Nice syscall
+
 #endif /* D403047C_65A6_4017_9DFB_514095C998F7 */
