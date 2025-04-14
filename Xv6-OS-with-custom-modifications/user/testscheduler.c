@@ -9,8 +9,6 @@ void test_round_robin();
 int
 main(int argc, char *argv[])
 {
-  printf(1, "=== Running Priority Scheduler Tests ===\n");
-
   if(argc < 2){
     printf(2, "Usage: testscheduler [starvation|roundrobin]\n");
     exit();
@@ -21,41 +19,68 @@ main(int argc, char *argv[])
   } else if(strcmp(argv[1], "roundrobin") == 0){
     test_round_robin();
   } else {
-    printf(2, "Unknown test %s\n", argv[1]);
+    printf(2, "Unknown test type.\n");
   }
 
   exit();
 }
 
 void test_starvation() {
-  for (int i = 0; i < 3; i++) {
-    if (fork() == 0) {
-      setpriority(9);
-      while (1) {
-        printf(1, "[HIGH-%d] running\n", getpid());
-        sleep(50);
+    int high_pids[3];
+    int low_pid;
+  
+    // Fork 3 high-priority processes
+    for(int i = 0; i < 3; i++) {
+      int pid = fork();
+      if(pid == 0){
+        while(1){
+          printf(1, "[HIGH %d] running\n", getpid());
+          sleep(100);
+        }
+      } else {
+        high_pids[i] = pid;
       }
     }
-  }
-  if (fork() == 0) {
-    setpriority(1);
-    while (1) {
-      printf(1, "[LOW-%d] running\n", getpid());
-      sleep(50);
+  
+    // Fork a low-priority process
+    int pid = fork();
+    if(pid == 0){
+      while(1){
+        printf(1, "!!! LOW %d running (should be rare or never)\n", getpid());
+        sleep(100);void test_round_robin() {
+            int pids[3];
+          
+            for(int i = 0; i < 3; i++) {
+              int pid = fork();
+              if(pid == 0){
+                while(1){
+                  printf(1, "[EQUAL %d] running\n", getpid());
+                  sleep(100);
+                }
+              } else {
+                pids[i] = pid;
+              }
+            }
+          
+            // All at same priority
+            for(int i = 0; i < 3; i++)
+              nice(pids[i], 7);
+          
+            for(int i = 0; i < 3; i++) wait();
+          }
+          
+      }
+    } else {
+      low_pid = pid;
     }
+  
+    // Parent sets priorities
+    for(int i = 0; i < 3; i++)
+      nice(high_pids[i], 9);  // very high priority
+    nice(low_pid, 1);         // very low priority
+  
+    // Wait for children
+    for(int i = 0; i < 4; i++) wait();
   }
-  wait();
-}
 
-void test_round_robin() {
-  for (int i = 0; i < 3; i++) {
-    if (fork() == 0) {
-      setpriority(5);
-      while (1) {
-        printf(1, "[EQUAL-%d] running\n", getpid());
-        sleep(50);
-      }
-    }
-  }
-  wait();
-}
+  
