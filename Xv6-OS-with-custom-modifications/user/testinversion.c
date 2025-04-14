@@ -3,7 +3,7 @@
 #include "user.h"
 #include "fcntl.h"
 
-int main(void) {
+int main(int argc, char *argv[]) {
   int fd = open("l", O_CREATE | O_RDWR); // very short filename
   if (fd < 0) exit();
 
