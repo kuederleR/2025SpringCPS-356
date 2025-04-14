@@ -16,9 +16,9 @@ main(int argc, char *argv[])
 
   int r = nice(pid, prio);
   if(r < 0)
-    fprintf(2, "nice: failed to set priority for pid %d\n", pid);
+    printf(2, "nice: failed to set priority for pid %d\n", pid);
   else
     printf("nice: priority of pid %d set to %d\n", pid, prio);
 
-  exit(0);
+  exit();
 }
