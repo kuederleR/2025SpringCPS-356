@@ -58,25 +58,26 @@ void test_starvation() {
   
   
 
-  void test_round_robin() {
-    int pids[3];
+void test_round_robin() {
+    int num_children = 3;
   
-    for(int i = 0; i < 3; i++) {
+    for (int i = 0; i < num_children; i++) {
       int pid = fork();
-      if(pid == 0){
-        while(1){
-          printf(1, "[EQUAL %d] running\n", getpid());
-          sleep(100);
+      if (pid == 0) {
+        nice(getpid(), 5); // Equal priority
+        for (int j = 0; j < 10; j++) {
+          printf(1, "[ROUND %d] running (iteration %d)\n", getpid(), j);
+          sleep(50);
         }
-      } else {
-        pids[i] = pid;
+        exit();
       }
     }
   
-    // All at same priority
-    for(int i = 0; i < 3; i++)
-      nice(pids[i], 7);
+    for (int i = 0; i < num_children; i++)
+      wait();
   
-    for(int i = 0; i < 3; i++) wait();
-  }
+    printf(1, "\n[TEST DONE] Round-robin test complete.\n");
+    printf(1, "All equal-priority processes should have run alternately.\n");
+}
+  
   
