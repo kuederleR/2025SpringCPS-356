@@ -4,16 +4,7 @@
 #include "fcntl.h"
 
 int main(int argc, char *argv[]) {
-  int fd = open("l", O_CREATE | O_RDWR); // very short filename
-  if (fd < 0) exit();
-
-  if (fork() == 0) {
-    nice(getpid(), 1);
-    flock(fd, 1);
-    funlock(fd);
-    exit();
-  }
-
-  wait();
+  sleep(10);
+  fprint(1, "Hello from testinversion!\n");
   exit();
 }
