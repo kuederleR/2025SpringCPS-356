@@ -10,7 +10,7 @@ int funlock(int fd);
 
 int lockfd;
 
-// void low_process();
+void low_process();
 // void medium_process();
 // void high_process();
 
