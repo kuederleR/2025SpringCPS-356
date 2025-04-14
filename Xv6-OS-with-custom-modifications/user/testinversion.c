@@ -17,12 +17,12 @@ void high_process();
 int
 main(void)
 {
-  printf(1, "[MAIN] Starting priority inversion test.\n");
+  printf(1, "[MAIN] Priority inversion test.\n");
 
   // create the lock file
   lockfd = open("lockfile", O_CREATE | O_RDWR);
   if (lockfd < 0) {
-    printf(2, "[ERROR] Could not create lockfile.\n");
+    printf(2, "[ERROR] open lockfile failed.\n");
     exit();
   }
 
@@ -33,7 +33,7 @@ main(void)
     exit();
   }
 
-  sleep(10); // let low priority grab the lock
+  sleep(5);
 
   int pid_high = fork();
   if (pid_high == 0) {
@@ -42,7 +42,7 @@ main(void)
     exit();
   }
 
-  sleep(10); // allow high to block on the lock
+  sleep(5);
 
   int pid_med = fork();
   if (pid_med == 0) {
@@ -54,36 +54,25 @@ main(void)
   for (int i = 0; i < 3; i++)
     wait();
 
-  printf(1, "\n[TEST DONE] Priority inversion demonstration complete.\n");
+  printf(1, "[DONE]\n");
   exit();
 }
 
 void low_process() {
-  printf(1, "[LOW %d] Acquiring lock...\n", getpid());
   flock(lockfd, 1);
-  printf(1, "[LOW %d] Holding lock, simulating work...\n", getpid());
-  for (int i = 0; i < 50; i++) {
-    sleep(10);
-  }
-  printf(1, "[LOW %d] Releasing lock.\n", getpid());
+  for (int i = 0; i < 20; i++) sleep(5);
   funlock(lockfd);
 }
 
 void high_process() {
-  printf(1, "[HIGH %d] Attempting to acquire lock...\n", getpid());
-  flock(lockfd, 1); // Will block until LOW releases it
-  printf(1, "[HIGH %d] Acquired lock!\n", getpid());
+  flock(lockfd, 1);
   funlock(lockfd);
 }
 
 void medium_process() {
-  printf(1, "[MEDIUM %d] Running CPU-intensive loop.\n", getpid());
-  for (int i = 0; i < 300; i++) {
-    for (int j = 0; j < 1000000; j++) {
-      asm volatile(""); // prevent optimization
+  for (int i = 0; i < 50; i++) {
+    for (int j = 0; j < 100000; j++) {
+      asm volatile("");
     }
-    if (i % 50 == 0)
-      printf(1, "[MEDIUM %d] Still running...\n", getpid());
   }
-  printf(1, "[MEDIUM %d] Done.\n", getpid());
 }
