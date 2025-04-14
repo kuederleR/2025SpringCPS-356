@@ -1,4 +1,4 @@
-// user/nicetest.c
+// user/nice.c
 #include "types.h"
 #include "stat.h"
 #include "user.h"
