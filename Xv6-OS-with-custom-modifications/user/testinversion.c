@@ -25,12 +25,12 @@ main(void) {
     exit();
   }
 
-//   int pid_low = fork();
-//   if (pid_low == 0) {
-//     nice(getpid(), 1); // low priority
-//     low_process();
-//     exit();
-//   }
+  int pid_low = fork();
+  if (pid_low == 0) {
+    nice(getpid(), 1); // low priority
+    low_process();
+    exit();
+  }
 
 //   sleep(5);
 
