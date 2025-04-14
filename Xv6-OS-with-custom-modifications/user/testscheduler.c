@@ -47,28 +47,7 @@ void test_starvation() {
     if(pid == 0){
       while(1){
         printf(1, "!!! LOW %d running (should be rare or never)\n", getpid());
-        sleep(100);void test_round_robin() {
-            int pids[3];
-          
-            for(int i = 0; i < 3; i++) {
-              int pid = fork();
-              if(pid == 0){
-                while(1){
-                  printf(1, "[EQUAL %d] running\n", getpid());
-                  sleep(100);
-                }
-              } else {
-                pids[i] = pid;
-              }
-            }
-          
-            // All at same priority
-            for(int i = 0; i < 3; i++)
-              nice(pids[i], 7);
-          
-            for(int i = 0; i < 3; i++) wait();
-          }
-          
+        sleep(100);
       }
     } else {
       low_pid = pid;
@@ -83,4 +62,25 @@ void test_starvation() {
     for(int i = 0; i < 4; i++) wait();
   }
 
+  void test_round_robin() {
+    int pids[3];
+  
+    for(int i = 0; i < 3; i++) {
+      int pid = fork();
+      if(pid == 0){
+        while(1){
+          printf(1, "[EQUAL %d] running\n", getpid());
+          sleep(100);
+        }
+      } else {
+        pids[i] = pid;
+      }
+    }
+  
+    // All at same priority
+    for(int i = 0; i < 3; i++)
+      nice(pids[i], 7);
+  
+    for(int i = 0; i < 3; i++) wait();
+  }
   
