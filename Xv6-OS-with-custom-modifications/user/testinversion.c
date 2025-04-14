@@ -10,7 +10,7 @@ int funlock(int fd);
 
 int lockfd;
 
-// void low_process();
+void low_process();
 // void medium_process();
 // void high_process();
 
@@ -28,7 +28,7 @@ main(void) {
   int pid_low = fork();
   if (pid_low == 0) {
     nice(getpid(), 1); // low priority
-    // low_process();
+    low_process();
     exit();
   }
 
@@ -57,11 +57,11 @@ main(void) {
   exit();
 }
 
-// void low_process() {
-//   flock(lockfd, 1);
+void low_process() {
+  flock(lockfd, 1);
 //   for (int i = 0; i < 20; i++) sleep(5);
-//   funlock(lockfd);
-// }
+  funlock(lockfd);
+}
 
 // void high_process() {
 //   flock(lockfd, 1);
