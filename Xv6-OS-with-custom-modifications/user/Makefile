@@ -73,6 +73,7 @@ UPROGS=\
 	_shutdown\
 	_testfs\
 	_testuser\
+	_nicetest\
 	
 all: $(UPROGS)
 
