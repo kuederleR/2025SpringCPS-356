@@ -74,6 +74,7 @@ UPROGS=\
 	_testfs\
 	_testuser\
 	_nice\
+	_testscheduler\
 	
 all: $(UPROGS)
 
