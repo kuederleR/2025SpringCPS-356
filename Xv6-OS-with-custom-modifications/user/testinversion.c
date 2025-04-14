@@ -49,22 +49,24 @@ main(void) {
 
   int pid_low = fork();
   if (pid_low == 0) {
-    nice(getpid(), 1);
     low_process();
   }
 
   int pid_high = fork();
   if (pid_high == 0) {
-    nice(getpid(), 10);
     high_process();
   }
 
   int pid_med = fork();
   if (pid_med == 0) {
-    nice(getpid(), 5);
     medium_process();
   }
 
+  
+  nice(pid_low, 1); // Low priority
+  nice(pid_high, 10); // High priority
+  nice(pid_med, 5); // Medium priority
+  
   wait(); wait(); wait(); // Wait for all children
   print(1, "[MAIN] Test complete.\n");
   exit();
