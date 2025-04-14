@@ -76,6 +76,7 @@ UPROGS=\
 	_testuser\
 	_nice\
 	_testinversion\
+	_testflock\
 	
 all: $(UPROGS)
 

@@ -1,57 +1,75 @@
+// File: testinversion.c
 #include "types.h"
 #include "stat.h"
 #include "user.h"
 #include "fcntl.h"
-static const int highPriority = 10;
-static const int midPriority = 5;
-int main(int argc, char *argv[])
-{
-  printf(2, "%s Test passes if low priority child gets lock, and\n", argv[0]);
-  printf(2, "middle priority child completes before high priority gets lock.\n");
-  nice(getpid(), highPriority); // Make self high priority
-  printf(2, "%d started with priority: %d\n", getpid(), highPriority);
-  int fd = open("lock", O_CREATE | O_RDWR);
-  int lowChildPid = fork();
-  if (0 != lowChildPid)
-  {
-    // In high priority parent
-    sleep(1); // Give low priority child a chance to get lock
-    int midChildPid = fork();
-    if (0 != midChildPid)
-    {
-      // In high priority parent
-      // give mid priority process a middle priority
-      nice(midChildPid, midPriority);
-      lock(fd); // Try to get lock low priority child already has
-      printf(2, "%d high priority got lock!\n", getpid());
-      unlock(fd);
-    }
-    else
-    {
-      // Run mid priority
-      for (int i = 0; i < 10; i++)
-      {
-        printf(2, "%d mid priority running...\n", getpid());
-        for (int j = 0; j < (1 << 20); j++)
-        {
-        }
-      }
-    }
-  }
-  else
-  {
-    lock(fd);
-    printf(2, "%d low priority got lock!\n", getpid());
-    for (int i = 0; i < 10; i++)
-    {
-      printf(2, "%d low priority running\n", getpid());
-      for (int j = 0; j < (1 << 20); j++)
-      {
-      }
-    }
-    unlock(fd);
-  }
-  printf(2, "%d done!\n", getpid());
-  wait();
+
+int lockfd;
+
+void print(int o, const char *msg) {
+  write(o, msg, strlen(msg));
+}
+
+void low_process() {
+  flock(lockfd); // Acquires lock
+  print(1, "[LOW] Got lock, working...\n");
+  sleep(100);    // Simulate work
+  funlock(lockfd);
+  print(1, "[LOW] Released lock.\n");
   exit();
 }
+
+void high_process() {
+  sleep(10); // Ensure low grabs the lock first
+  print(1, "[HIGH] Trying to acquire lock...\n");
+  flock(lockfd); // Will block here
+  print(1, "[HIGH] Got the lock!\n");
+  funlock(lockfd);
+  exit();
+}
+
+void medium_process() {
+  sleep(20); // Ensure high is waiting on the lock
+  print(1, "[MEDIUM] Starting CPU work...\n");
+  for (volatile int i = 0; i < 100000000; i++); // Burn CPU
+  print(1, "[MEDIUM] Done with work.\n");
+  exit();
+}
+
+int
+main(void) {
+  print(1, "[MAIN] Priority inversion test.\n");
+
+  // Create lockfile
+  lockfd = open("lockfile", O_CREATE | O_RDWR);
+  if (lockfd < 0) {
+    print(2, "[ERROR] open lockfile failed.\n");
+    exit();
+  }
+
+  int pid_low = fork();
+  if (pid_low == 0) {
+    low_process();
+  }
+
+  int pid_high = fork();
+  if (pid_high == 0) {
+    high_process();
+  }
+
+  int pid_med = fork();
+  if (pid_med == 0) {
+    medium_process();
+  }
+
+  
+  nice(pid_low, 1); // Low priority
+  nice(pid_high, 10); // High priority
+  nice(pid_med, 5); // Medium priority
+  
+  wait(); wait(); wait(); // Wait for all children
+  print(1, "[MAIN] Test complete.\n");
+  exit();
+}
+
+
