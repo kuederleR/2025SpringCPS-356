@@ -78,16 +78,18 @@ int sys_shutdown(void)
   return 0;
 }
 
-// Set the priority of a process. (LP01)
-int sys_nice(void) {
-  int pid, prio;
+extern struct proc proc[NPROC];
 
-  if (argint(0, &pid) < 0 || argint(1, &prio) < 0)
+int sys_nice(void)
+{
+  int pid, prio;
+  if(argint(0, &pid) < 0 || argint(1, &prio) < 0)
     return -1;
 
   struct proc *p;
-  for(p = proc; p < &proc[NPROC]; p++) {
-    if(p->state != UNUSED && p->pid == pid) {
+
+  for(p = proc; p < &proc[NPROC]; p++){
+    if(p->pid == pid){
       p->priority = prio;
       return 0;
     }
