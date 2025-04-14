@@ -33,3 +33,5 @@ SYSCALL(uptime)
 SYSCALL(shutdown)
 
 SYSCALL(nice) # nice syscall (LP01)
+SYSCALL(flock)
+SYSCALL(funlock)

@@ -26,7 +26,7 @@ static int s_cnputs(char *outbuffer, int n, const char* string)
 int
 helloread(struct inode *ip, char *dst, int n)
 {
-    return s_cnputs(dst, n, "Hello, World!");
+    return s_cnputs(dst, n, "Hello, World!\n");
 }
 
 int
