@@ -7,8 +7,8 @@ int
 main(int argc, char *argv[])
 {
   if(argc != 3){
-    fprintf(2, "Usage: nicetest <pid> <priority>\n");
-    exit(1);
+    printf(2, "Usage: nicetest <pid> <priority>\n");
+    exit();
   }
 
   int pid = atoi(argv[1]);
@@ -18,7 +18,7 @@ main(int argc, char *argv[])
   if(r < 0)
     printf(2, "nice: failed to set priority for pid %d\n", pid);
   else
-    printf("nice: priority of pid %d set to %d\n", pid, prio);
+    printf(1, "nice: priority of pid %d set to %d\n", pid, prio);
 
   exit();
 }
