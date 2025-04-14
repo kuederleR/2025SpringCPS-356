@@ -8,7 +8,7 @@
 int flock(int fd, int operation);
 int funlock(int fd);
 
-// int lockfd;
+int lockfd;
 
 // void low_process();
 // void medium_process();
@@ -16,14 +16,14 @@ int funlock(int fd);
 
 int
 main(void) {
-//   printf(1, "[MAIN] Priority inversion test.\n");
+  printf(1, "[MAIN] Priority inversion test.\n");
 
-//   // create the lock file
-//   lockfd = open("lockfile", O_CREATE | O_RDWR);
-//   if (lockfd < 0) {
-//     printf(2, "[ERROR] open lockfile failed.\n");
-//     exit();
-//   }
+  // create the lock file
+  lockfd = open("lockfile", O_CREATE | O_RDWR);
+  if (lockfd < 0) {
+    printf(2, "[ERROR] open lockfile failed.\n");
+    exit();
+  }
 
 //   int pid_low = fork();
 //   if (pid_low == 0) {
