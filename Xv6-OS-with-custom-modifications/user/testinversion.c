@@ -57,11 +57,11 @@ main(void) {
   exit();
 }
 
-// void low_process() {
-//   flock(lockfd, 1);
-//   for (int i = 0; i < 20; i++) sleep(5);
-//   funlock(lockfd);
-// }
+void low_process() {
+  flock(lockfd, 1);
+  for (int i = 0; i < 20; i++) sleep(5);
+  funlock(lockfd);
+}
 
 // void high_process() {
 //   flock(lockfd, 1);
