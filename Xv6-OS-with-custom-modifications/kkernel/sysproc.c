@@ -6,6 +6,7 @@
 #include "proc.h"
 #include "types.h"
 #include "x86.h"
+#include "spinlock.h"
 
 int sys_fork(void) { return fork(); }
 
