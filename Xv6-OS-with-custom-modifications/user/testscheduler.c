@@ -28,39 +28,44 @@ main(int argc, char *argv[])
 void test_starvation() {
     int high_pids[3];
     int low_pid;
+    int pid;
   
-    // Fork 3 high-priority processes
-    for(int i = 0; i < 3; i++) {
-      int pid = fork();
-      if(pid == 0){
-        while(1){
+    // Fork 3 high-priority children
+    for (int i = 0; i < 3; i++) {
+      pid = fork();
+      if (pid == 0) {
+        nice(getpid(), 9);  // high priority
+        for (int j = 0; j < 20; j++) {
           printf(1, "[HIGH %d] running\n", getpid());
-          sleep(100);
+          sleep(50); // total 1000 ticks
         }
+        exit();
       } else {
         high_pids[i] = pid;
       }
     }
   
-    // Fork a low-priority process
-    int pid = fork();
-    if(pid == 0){
-      while(1){
-        printf(1, "!!! LOW %d running (should be rare or never)\n", getpid());
-        sleep(100);
+    // Fork low-priority child
+    pid = fork();
+    if (pid == 0) {
+      nice(getpid(), 1);  // low priority
+      for (int j = 0; j < 5; j++) {
+        printf(1, "!!! LOW %d running (should NOT run much)\n", getpid());
+        sleep(200);  // long intervals to make it visible
       }
+      exit();
     } else {
       low_pid = pid;
     }
   
-    // Parent sets priorities
-    for(int i = 0; i < 3; i++)
-      nice(high_pids[i], 9);  // very high priority
-    nice(low_pid, 1);         // very low priority
+    // Parent waits for all children
+    for (int i = 0; i < 4; i++)
+      wait();
   
-    // Wait for children
-    for(int i = 0; i < 4; i++) wait();
+    printf(1, "\n[TEST DONE] Starvation test complete.\n");
+    printf(1, "Did low priority process run? It should barely appear above.\n");
   }
+  
 
   void test_round_robin() {
     int pids[3];
