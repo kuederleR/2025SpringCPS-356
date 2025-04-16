@@ -24,10 +24,12 @@ void high() {
 }
 
 void medium() {
-  while (1) {
+  for (int i = 0; i < 10; i++) {
     printf(1, "[MEDIUM] Running...\n");
     sleep(10);
   }
+  printf(1, "[MEDIUM] Exiting.\n");
+  exit();
 }
 
 int main() {
