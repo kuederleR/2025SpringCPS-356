@@ -55,7 +55,7 @@ ULIB = ../ulib.o ../usys.o ../printf.o ../malloc.o
 # http://www.gnu.org/software/make/manual/html_node/Chained-Rules.html
 .PRECIOUS: %.o
 
-UPROGS=\
+UPROGS=\4
 	_cat\
 	_cp\
 	_echo\
@@ -75,7 +75,7 @@ UPROGS=\
 	_testuser\
 	_nice\
 	_testinversion\
-		
+
 all: $(UPROGS)
 
 

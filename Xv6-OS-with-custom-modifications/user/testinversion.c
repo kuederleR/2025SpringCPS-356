@@ -4,53 +4,55 @@
 #include "fcntl.h"
 
 int main() {
-  int fd = open("lockfile", O_CREATE | O_RDWR);
+  int fd = open("lock", O_CREATE|O_RDWR);
   if (fd < 0) {
-    printf(1, "Failed to open lockfile\n");
+    printf(1, "Failed to open lock file\n");
     exit();
+  } else {
+    printf(1, "Lock file opened successfully\n");
   }
 
-  int pid_low = fork();
-  if (pid_low == 0) {
-    nice(getpid(), 1); // Low priority
-    flock(fd);
-    printf(1, "Low-priority process acquired lock\n");
-    sleep(200); // Hold lock for a while
-    funlock(fd);
-    printf(1, "Low-priority process released lock\n");
-    exit();
-  }
+  // int pid_low = fork();
+  // if (pid_low == 0) {
+  //   nice(getpid(), 1); // Low priority
+  //   flock(fd);
+  //   printf(1, "Low-priority process acquired lock\n");
+  //   sleep(200); // Hold lock for a while
+  //   funlock(fd);
+  //   printf(1, "Low-priority process released lock\n");
+  //   exit();
+  // }
 
-  sleep(10); // Ensure low-priority process acquires lock
+  // sleep(10); // Ensure low-priority process acquires lock
 
-  int pid_high = fork();
-  if (pid_high == 0) {
-    nice(getpid(), 10); // High priority
-    printf(1, "High-priority process attempting to acquire lock\n");
-    flock(fd);
-    printf(1, "High-priority process acquired lock\n");
-    funlock(fd);
-    printf(1, "High-priority process released lock\n");
-    exit();
-  }
+  // int pid_high = fork();
+  // if (pid_high == 0) {
+  //   nice(getpid(), 10); // High priority
+  //   printf(1, "High-priority process attempting to acquire lock\n");
+  //   flock(fd);
+  //   printf(1, "High-priority process acquired lock\n");
+  //   funlock(fd);
+  //   printf(1, "High-priority process released lock\n");
+  //   exit();
+  // }
 
-  sleep(10); // Ensure high-priority process is waiting on lock
+  // sleep(10); // Ensure high-priority process is waiting on lock
 
-  int pid_medium = fork();
-  if (pid_medium == 0) {
-    nice(getpid(), 5); // Medium priority
-    for (int i = 0; i < 100000000; i++) {
-      // Busy work
-    }
-    printf(1, "Medium-priority process completed work\n");
-    exit();
-  }
+  // int pid_medium = fork();
+  // if (pid_medium == 0) {
+  //   nice(getpid(), 5); // Medium priority
+  //   for (int i = 0; i < 100000000; i++) {
+  //     // Busy work
+  //   }
+  //   printf(1, "Medium-priority process completed work\n");
+  //   exit();
+  // }
 
-  wait(); // Wait for low-priority process
-  wait(); // Wait for high-priority process
-  wait(); // Wait for medium-priority process
+  // wait(); // Wait for low-priority process
+  // wait(); // Wait for high-priority process
+  // wait(); // Wait for medium-priority process
 
-  close(fd);
-  unlink("lockfile");
+  // close(fd);
+  // unlink("lockfile");
   exit();
 }
