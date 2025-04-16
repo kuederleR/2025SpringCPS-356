@@ -2,7 +2,6 @@
 #include "stat.h"
 #include "user.h"
 #include "fcntl.h"
-#include "string.h"
 
 void low_process(int fd);
 void medium_process(int fd);
@@ -105,7 +104,12 @@ void medium_process(int fd) {
 }
 
 void print(int i, char *msg, char *process) {
-  strcat(msg, " ");
-  strcat(process, msg);
+  int len_process = strlen(process);
+  int len_msg = strlen(msg);
+  for (int j = 0; j < len_msg; j++) {
+    process[len_process + j] = msg[j];
+  }
+  process[len_process + len_msg] = ' ';
+  process[len_process + len_msg + 1] = '\0';
   write(i, process, strlen(process));
 }
