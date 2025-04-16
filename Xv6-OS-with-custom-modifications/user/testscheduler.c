@@ -27,14 +27,14 @@ main(int argc, char *argv[])
 
 void test_starvation() {
     int pid;
-  
-    for (int i = 0; i < 3; i++) {
+    int num_high = 10;
+    for (int i = 0; i < num_high; i++) {
       pid = fork();
       if (pid == 0) {
         nice(getpid(), 9);
         for (int j = 0; j < 20; j++) {
           printf(1, "[HIGH %d] running\n", getpid());
-          sleep(50);
+          sleep(10);
         }
         exit();
       }
@@ -50,7 +50,7 @@ void test_starvation() {
       exit();
     }
   
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 1 + num_high; i++)
       wait();
   
     printf(1, "\n[TEST DONE] Starvation test complete.\n");
