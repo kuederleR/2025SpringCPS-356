@@ -3,7 +3,8 @@
 #include "user.h"
 #include "fcntl.h"
 
-void low_process();
+void low_process(int fd);
+void medium_process(int fd);
 void print(int i, char *msg);
 
 int main() {
@@ -89,7 +90,7 @@ void low_process(int fd) {
   exit();
 }
 
-void medium_process() {
+void medium_process(int fd) {
   print(1, "[MEDIUM] Entering medium-priority process.\n");
   for (int i = 0; i < 100000000; i++) {
     // Busy work
