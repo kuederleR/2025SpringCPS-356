@@ -10,6 +10,14 @@ int main() {
     exit();
   } else {
     printf(1, "Lock file opened successfully\n");
+    printf(1, "lockFd is %d\n", fd);
+  }
+
+  int pid_low = fork();
+  if (pid_low == 0) {
+    fprintf(1, "[LOW] Entering low-priority process.\n");
+    
+    exit();
   }
 
   // int pid_low = fork();
