@@ -2,6 +2,7 @@
 #include "stat.h"
 #include "user.h"
 #include "fcntl.h"
+#include "string.h"
 
 void low_process(int fd);
 void medium_process(int fd);
