@@ -15,8 +15,8 @@ int main() {
 
   int pid_low = fork();
   if (pid_low == 0) {
-    fprintf(1, "[LOW] Entering low-priority process.\n");
-    
+    printf(1, "[LOW] Entering low-priority process.\n");
+
     exit();
   }
 
