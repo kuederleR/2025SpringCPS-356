@@ -6,8 +6,7 @@
 void test_starvation();
 void test_round_robin();
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
   if(argc < 2){
     printf(2, "Usage: testscheduler [starvation|roundrobin]\n");
