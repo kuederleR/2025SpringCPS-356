@@ -3,9 +3,8 @@
 #include "user.h"
 #include "fcntl.h"
 
-void print(int i, char *msg) {
-  write(i, msg, strlen(msg));
-}
+void low_process();
+void print(int i, char *msg);
 
 int main() {
   int fd = open("lock", O_CREATE|O_RDWR);
@@ -18,18 +17,23 @@ int main() {
   }
 
   int pid_low = fork();
-  // printf(1, "pid_low is %d\n", pid_low);
   print(1, "[MAIN] Setting priority for low-priority process\n");
   nice(pid_low, 1); // Set low priority
   if (pid_low == 0) {
-    print(1, "[LOW] Entering low-priority process.\n");
-    flock(fd);
-    print(1, "[LOW] Acquired lock in low-priority process.\n");
-    sleep(200); // Hold lock for a while
-    funlock(fd);
-    exit();
+    low_process(fd);
   }
+
+  int pid_medium = fork();
+  print(1, "[MAIN] Setting priority for medium-priority process\n");
+  nice(pid_medium, 5); // Set medium priority
+  if (pid_medium == 0) {
+    medium_process();
+  }
+
+
   wait();
+  wait();
+
 
   // int pid_low = fork();
   // if (pid_low == 0) {
@@ -74,4 +78,26 @@ int main() {
   // close(fd);
   // unlink("lockfile");
   exit();
+}
+
+void low_process(int fd) {
+  print(1, "[LOW] Entering low-priority process.\n");
+  flock(fd);
+  print(1, "[LOW] Acquired lock in low-priority process.\n");
+  sleep(200); // Hold lock for a while
+  funlock(fd);
+  exit();
+}
+
+void medium_process() {
+  print(1, "[MEDIUM] Entering medium-priority process.\n");
+  for (int i = 0; i < 100000000; i++) {
+    // Busy work
+  }
+  print(1, "[MEDIUM] Completed work in medium-priority process.\n");
+  exit();
+}
+
+void print(int i, char *msg) {
+  write(i, msg, strlen(msg));
 }
