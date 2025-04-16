@@ -28,7 +28,7 @@ int main() {
   print(1, "[MAIN] Setting priority for medium-priority process\n");
   nice(pid_medium, 5); // Set medium priority
   if (pid_medium == 0) {
-    medium_process();
+    medium_process(fd);
   }
 
 
