@@ -3,6 +3,10 @@
 #include "user.h"
 #include "fcntl.h"
 
+void print(int i, char *msg) {
+  write(i, msg, strlen(msg));
+}
+
 int main() {
   int fd = open("lock", O_CREATE|O_RDWR);
   if (fd < 0) {
@@ -14,13 +18,13 @@ int main() {
   }
 
   int pid_low = fork();
-  printf(1, "pid_low is %d\n", pid_low);
-  printf(1, "Setting priority for low-priority process\n");
+  // printf(1, "pid_low is %d\n", pid_low);
+  print(1, "[MAIN] Setting priority for low-priority process\n");
   nice(pid_low, 1); // Set low priority
   if (pid_low == 0) {
-    printf(1, "[LOW] Entering low-priority process.\n");
+    print(1, "[LOW] Entering low-priority process.\n");
     flock(fd);
-    printf(1, "[LOW] Acquired lock in low-priority process.\n");
+    print(1, "[LOW] Acquired lock in low-priority process.\n");
     sleep(200); // Hold lock for a while
     funlock(fd);
     exit();
