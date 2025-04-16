@@ -56,7 +56,6 @@ ULIB = ../ulib.o ../usys.o ../printf.o ../malloc.o
 .PRECIOUS: %.o
 
 UPROGS=\
-	_countUD\
 	_cat\
 	_cp\
 	_echo\
@@ -76,8 +75,7 @@ UPROGS=\
 	_testuser\
 	_nice\
 	_testinversion\
-	_testflock\
-	
+		
 all: $(UPROGS)
 
 
