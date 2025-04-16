@@ -14,6 +14,9 @@ int main() {
   }
 
   int pid_low = fork();
+  printf(1, "pid_low is %d\n", pid_low);
+  printf(1, "Setting priority for low-priority process\n");
+  nice(pid_low, 1); // Set low priority
   if (pid_low == 0) {
     printf(1, "[LOW] Entering low-priority process.\n");
     flock(fd);
