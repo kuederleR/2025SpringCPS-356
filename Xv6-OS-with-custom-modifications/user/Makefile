@@ -47,8 +47,6 @@ endif
 ULIB = ../ulib.o ../usys.o ../printf.o ../malloc.o
 
 .PHONY: all
-.PHONY: fs
-
 # Prevent deletion of intermediate files, e.g. cat.o, after first build, so
 # that disk image changes after first build are persistent until clean.  More
 # details:
@@ -75,7 +73,7 @@ UPROGS=\
 	_testuser\
 	_nice\
 	_testinversion\
-		
+
 all: $(UPROGS)
 
 

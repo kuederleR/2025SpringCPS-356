@@ -7,7 +7,7 @@ int
 main(int argc, char *argv[])
 {
   if(argc != 3){
-    printf(2, "Usage: nicetest <pid> <priority>\n");
+    printf(2, "Usage: nice <pid> <priority>\n");
     exit();
   }
 
