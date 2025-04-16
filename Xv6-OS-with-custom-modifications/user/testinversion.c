@@ -16,9 +16,13 @@ int main() {
   int pid_low = fork();
   if (pid_low == 0) {
     printf(1, "[LOW] Entering low-priority process.\n");
-
+    flock(fd);
+    printf(1, "[LOW] Acquired lock in low-priority process.\n");
+    sleep(200); // Hold lock for a while
+    funlock(fd);
     exit();
   }
+  wait();
 
   // int pid_low = fork();
   // if (pid_low == 0) {
