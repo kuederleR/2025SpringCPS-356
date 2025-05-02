@@ -29,6 +29,10 @@ KOBJS = \
 	kkernel/sysproc.o\
 	kkernel/dconsole.o\
 	kkernel/dhello.o\
+	kkernel/dqueue.o\
+	kkernel/dzero.o\
+	kkernel/dnull.o\
+	kkernel/dticks.o\
 	string.o\
 
 # Cross-compiling (e.g., on Mac OS X)
@@ -158,6 +162,8 @@ mkfs: mkfs.c fs.h
 	gcc -Werror -Wall -o mkfs mkfs.c
 
 fs.img: mkfs README
+	@ rm -rf userbin
+	@ mkdir userbin
 	pushd user; make all; make fs; popd 
 
 -include *.d
@@ -168,6 +174,8 @@ DIRS=\
 	user \
 
 clean: 
+	@ rm -rf userbin
+	@ mkdir userbin
 	@ for dir in $(DIRS); do \
 		pushd $$dir ; \
 		rm -f *.tex *.dvi *.idx *.aux *.log *.ind *.ilg \

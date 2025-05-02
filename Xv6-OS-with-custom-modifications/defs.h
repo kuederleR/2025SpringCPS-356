@@ -28,6 +28,14 @@ void panic(char *) __attribute__((noreturn));
 
 // dhello.c
 void helloinit(void);
+//dqueue.c
+void queueinit(void);
+//dzero.c
+void zeroinit(void);
+//dnull.c
+void nullinit(void);
+//dticks.c
+void ticksinit(void);
 
 // exec.c
 int exec(char *, char **);

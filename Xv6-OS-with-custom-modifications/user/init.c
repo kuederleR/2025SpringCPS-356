@@ -27,6 +27,34 @@ int main(void) {
   }
   close(hellofd);
 
+  int queuefd = open("dev/queue", O_RDWR);
+  if(queuefd < 0){
+    mknod("dev/queue", 6, 1); // 6 is major number, 1 is minor number 
+    queuefd = open("dev/queue", O_RDWR);
+  }
+  close(queuefd);
+
+  int zerofd = open("dev/zero", O_RDWR);
+  if(zerofd < 0){
+    mknod("dev/zero", 5, 1); // 5 is major number, 1 is minor number 
+    zerofd = open("dev/zero", O_RDWR);
+  }
+  close(zerofd);
+
+  int nullfd = open("dev/null", O_RDWR);
+  if(nullfd < 0){
+    mknod("dev/null", 4, 1); // 4 is major number, 1 is minor number 
+    nullfd = open("dev/null", O_RDWR);
+  }
+  close(nullfd);
+
+  int ticksfd = open("dev/ticks", O_RDWR);
+  if(ticksfd < 0){
+    mknod("dev/ticks", 3, 1); // 3 is major number, 1 is minor number 
+    ticksfd = open("dev/ticks", O_RDWR);
+  }
+
+
   for (;;) {
     printf(1, "init: starting sh\n");
     pid = fork();
