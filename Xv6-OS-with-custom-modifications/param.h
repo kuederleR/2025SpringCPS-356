@@ -12,6 +12,6 @@
 #define MAXOPBLOCKS 10            // max # of blocks any FS op writes
 #define LOGSIZE (MAXOPBLOCKS * 3) // max data blocks in on-disk log
 #define NBUF (MAXOPBLOCKS * 3)    // size of disk block cache
-#define FSSIZE 1000               // size of file system in blocks
+#define FSSIZE 2000               // size of file system in blocks
 
 #endif /* A4559DE9_C220_44C9_96A3_C431CF69CB63 */

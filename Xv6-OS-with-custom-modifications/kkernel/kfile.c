@@ -2,8 +2,8 @@
 // File descriptors
 //
 
-#include "file.h"
 #include "defs.h"
+#include "file.h"
 #include "fs.h"
 #include "param.h"
 #include "sleeplock.h"
@@ -15,6 +15,28 @@ struct {
   struct spinlock lock;
   struct file file[NFILE];
 } ftable;
+
+int filelock(struct file *fp) {
+  int status = 0;
+  if (fp->ip == 0 || fp->ip->ref < 1) {
+    status = -1;
+  } else {
+    acquiresleep(&fp->ip->flock);
+  }
+
+  return status;
+}
+
+int fileunlock(struct file *fp) {
+  int status = -1;
+
+  if (fp->ip != 0 && holdingsleep(&fp->ip->flock) && !(fp->ip->ref < 1)) {
+    releasesleep(&fp->ip->flock);
+    status = 0;
+  }
+
+  return status;
+}
 
 void fileinit(void) { initlock(&ftable.lock, "ftable"); }
 

@@ -6,6 +6,7 @@
 #include "proc.h"
 #include "types.h"
 #include "x86.h"
+#include "spinlock.h"
 
 int sys_fork(void) { return fork(); }
 
@@ -78,3 +79,25 @@ int sys_shutdown(void)
   return 0;
 }
 
+extern struct {
+  struct spinlock lock;
+  struct proc proc[NPROC];
+} ptable;
+
+
+int sys_nice(void)
+{
+  int pid, prio;
+  if(argint(0, &pid) < 0 || argint(1, &prio) < 0)
+    return -1;
+
+  struct proc *p;
+
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+    if(p->pid == pid){
+      p->priority = prio;
+      return 0;
+    }
+  }
+  return -1; // PID not found
+}
